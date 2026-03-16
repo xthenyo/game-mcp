@@ -1,0 +1,36 @@
+{
+  "mcpServers": {
+    "doomed-team": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "--project", ".", "-m", "doomed.mcp_team"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      }
+    },
+    "pixellab": {
+      "type": "http",
+      "url": "https://api.pixellab.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer ${PIXELLAB_API_TOKEN}"
+      }
+    },
+    "blender": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["blender-mcp"],
+      "env": {
+        "BLENDER_HOST": "localhost",
+        "BLENDER_PORT": "9876"
+      }
+    },
+    "unity": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-unity@latest"],
+      "env": {
+        "MCP_TOOL_TIMEOUT": "720000"
+      }
+    }
+  }
+}

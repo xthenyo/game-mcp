@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "Task",
+      "mcp__doomed-team__*",
+      "mcp__pixellab__*",
+      "mcp__unity__*"
+    ],
+    "deny": []
+  },
+  "env": {
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "200000",
+    "MAX_MCP_OUTPUT_TOKENS": "250000",
+    "MAX_THINKING_TOKENS": "32000",
+    "ENABLE_TOOL_SEARCH": "auto"
+  }
+}

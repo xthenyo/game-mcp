@@ -1,0 +1,22 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "doomed-team",
+      "runtimeExecutable": "uv",
+      "runtimeArgs": ["run", "--project", ".", "-m", "doomed.mcp_team"]
+    },
+    {
+      "name": "blender-mcp",
+      "runtimeExecutable": "uvx",
+      "runtimeArgs": ["blender-mcp"],
+      "port": 9876
+    },
+    {
+      "name": "unity-mcp",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "@anthropic/mcp-unity@latest"],
+      "port": 720000
+    }
+  ]
+}

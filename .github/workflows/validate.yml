@@ -1,0 +1,42 @@
+name: Validate Documentation
+
+on:
+  push:
+    paths:
+      - 'docs/bible/**'
+      - 'workflow/**'
+  pull_request:
+    paths:
+      - 'docs/bible/**'
+      - 'workflow/**'
+
+jobs:
+  markdown-lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: 'docs/**/*.md'
+          config: '.markdownlint.yaml'
+
+  yaml-lint:
+    name: YAML Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: |
+            docs/bible/**/*.yaml
+            workflow/*.yaml
+            config/*.yaml
+          config_data: |
+            extends: default
+            rules:
+              line-length:
+                max: 200
+              truthy:
+                check-keys: false
+              document-start: disable
