@@ -163,7 +163,7 @@ def get_tasks(role: Optional[str] = None, status: Optional[str] = None) -> dict:
     if role:
         tasks = [t for t in tasks if t.role == role.upper()]
     if status:
-        tasks = [t for t in tasks if t.status == status.upper()]
+        tasks = [t for t in tasks if t.status.value == status.upper()]
     return {"tasks": [t.model_dump() for t in tasks], "count": len(tasks)}
 
 

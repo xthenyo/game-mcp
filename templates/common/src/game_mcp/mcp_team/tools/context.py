@@ -4,8 +4,9 @@ from __future__ import annotations
 
 from typing import Optional
 
-from .._context import DECISIONS_FILE, mcp
+from .._context import BIBLE_ROOT, DECISIONS_FILE, mcp
 from ..state.manager import now_str
+from ..state.models import VALID_ROLES
 
 
 def _ensure_decisions_file() -> None:
@@ -142,5 +143,51 @@ def get_context(role: str) -> dict:
             "files": next_t.files,
             "instruction": f"claim_task({next_t.id}, '{role}') to start",
         }
+
+    # LEAD gets a full project dashboard — all tasks, all roles, Bible status
+    if role == "LEAD":
+        all_tasks = state.tasks
+
+        # Tasks by status
+        status_counts = {}
+        for t in all_tasks:
+            s = t.status.value
+            status_counts[s] = status_counts.get(s, 0) + 1
+        result["project_status"] = status_counts
+
+        # Tasks by role
+        role_summary = {}
+        for r in sorted(VALID_ROLES - {"LEAD"}):
+            role_tasks = [t for t in all_tasks if t.role == r]
+            if role_tasks:
+                role_summary[r] = {
+                    "total": len(role_tasks),
+                    "open": sum(1 for t in role_tasks if t.status.value == "OPEN"),
+                    "in_progress": sum(1 for t in role_tasks if t.status.value == "IN_PROGRESS"),
+                    "blocked": sum(1 for t in role_tasks if t.status.value == "BLOCKED"),
+                }
+        result["tasks_by_role"] = role_summary
+
+        # All tasks list (compact) for LEAD overview
+        result["all_tasks"] = [
+            {"id": t.id, "title": t.title, "role": t.role,
+             "status": t.status.value, "priority": t.priority,
+             "locked_by": t.locked_by, "depends_on": t.depends_on}
+            for t in sorted(all_tasks, key=lambda t: t.priority)
+        ]
+
+        # Bible completion snapshot
+        from .bible import _scan_section, BIBLE_SECTIONS
+        bible_summary = {}
+        for section_id, section_name in BIBLE_SECTIONS:
+            info = _scan_section(BIBLE_ROOT / section_id)
+            if info["exists"]:
+                bible_summary[section_id] = {
+                    "name": section_name,
+                    "files": info["files"],
+                    "completion": info["completion"],
+                }
+        if bible_summary:
+            result["bible_status"] = bible_summary
 
     return result
