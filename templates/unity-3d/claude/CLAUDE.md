@@ -2,6 +2,43 @@
 
 Bible-first game development with multi-agent AI team. Design your game completely in documentation before writing a single line of code.
 
+## Quick Start (First Time)
+
+1. **Open Unity Hub** and add this project folder — Unity 6 with URP 3D will load
+2. **Open Blender** — Blender MCP needs it running in the background
+3. Type `/lead` — the Lead agent will verify all MCP connections and tools
+4. Tell Lead what game you want to make — be as detailed as possible
+5. Lead creates tasks, then tells you which agent to call next
+6. Follow the execution order: usually `/designer` -> `/artist` -> `/engineer` -> `/qa`
+
+**Example first prompt:** `/lead` then "I want to make a third-person adventure game with low-poly 3D art"
+
+## MCP Servers
+
+This project uses these MCP servers (configured in `.mcp.json`):
+
+| Server | Purpose | Setup |
+|--------|---------|-------|
+| `game-mcp-team` | Task management, decisions, Bible | Auto (Python MCP) |
+| `blender` | 3D modeling, UV, materials, export | Blender must be open |
+| `photoshop` | Texture/material editing (50+ tools) | Photoshop 2021+ must be open |
+| `unity` | Unity editor control | Unity must be open with project loaded |
+
+**Troubleshooting:**
+- If Blender MCP fails: make sure Blender 3.6+ is open, install blender-mcp addon
+- If Unity MCP fails: make sure Unity 6 is open with this project loaded
+- Run `uv sync` if Python MCP server won't start
+
+## Required Tools
+
+| Tool | Install | Purpose |
+|------|---------|---------|
+| Unity 6 | unity.com/download | Game engine |
+| Blender 3.6+ | blender.org | 3D modeling |
+| Python 3.11+ | python.org | MCP server runtime |
+| uv | `pip install uv` | Python package manager |
+| Gemini CLI | `npm i -g @google/gemini-cli` | Research + concepts |
+
 ## Core Principles
 
 1. **Quality is absolute priority** — No shortcuts, workarounds, or hacks. Always the most permanent, professional solution.

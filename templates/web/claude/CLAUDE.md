@@ -2,6 +2,31 @@
 
 Bible-first game development with multi-agent AI team. Design your game completely in documentation before writing a single line of code.
 
+## Quick Start (First Time)
+
+1. Type `/lead` — the Lead agent will verify all MCP connections and tools
+2. Tell Lead what game you want to make — be as detailed as possible
+3. Lead creates tasks, then tells you which agent to call next
+4. Follow the execution order: usually `/designer` -> `/engineer` -> `/qa`
+
+**Example first prompt:** `/lead` then "I want to make a 2D platformer with pixel art graphics and 10 levels"
+
+## MCP Servers
+
+This project uses these MCP servers (configured in `.mcp.json`):
+
+| Server | Purpose | Status Check |
+|--------|---------|-------------|
+| `game-mcp-team` | Task management, decisions, Bible tracking | `get_context("LEAD")` |
+
+## Required Tools
+
+| Tool | Install | Purpose |
+|------|---------|---------|
+| Gemini CLI | `npm i -g @google/gemini-cli` | Research + image generation |
+| Python 3.11+ | python.org | MCP server runtime |
+| uv | `pip install uv` | Python package manager |
+
 ## Core Principles
 
 1. **Quality is absolute priority** — No shortcuts, workarounds, or hacks.

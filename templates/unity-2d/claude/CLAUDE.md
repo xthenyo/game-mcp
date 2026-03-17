@@ -2,6 +2,42 @@
 
 Bible-first game development with multi-agent AI team. Design your game completely in documentation before writing a single line of code.
 
+## Quick Start (First Time)
+
+1. **Open Unity Hub** and add this project folder — Unity 6 with URP 2D will load
+2. Type `/lead` — the Lead agent will verify all MCP connections and tools
+3. Tell Lead what game you want to make — be as detailed as possible
+4. Lead creates tasks, then tells you which agent to call next
+5. Follow the execution order: usually `/designer` -> `/artist` -> `/engineer` -> `/qa`
+
+**Example first prompt:** `/lead` then "I want to make a top-down RPG with pixel art and turn-based combat"
+
+## MCP Servers
+
+This project uses these MCP servers (configured in `.mcp.json`):
+
+| Server | Purpose | Setup |
+|--------|---------|-------|
+| `game-mcp-team` | Task management, decisions, Bible | Auto (Python MCP) |
+| `pixellab` | AI pixel art generation | Needs `PIXELLAB_API_TOKEN` in `.env` |
+| `photoshop` | Sprite/texture editing (50+ tools) | Photoshop 2021+ must be open |
+| `unity` | Unity editor control | Unity must be open with project loaded |
+
+**Troubleshooting:**
+- If PixelLab fails: check `.env` has `PIXELLAB_API_TOKEN=your_token_here`
+- If Unity MCP fails: make sure Unity 6 is open with this project loaded
+- Run `uv sync` if Python MCP server won't start
+
+## Required Tools
+
+| Tool | Install | Purpose |
+|------|---------|---------|
+| Unity 6 | unity.com/download | Game engine |
+| Python 3.11+ | python.org | MCP server runtime |
+| uv | `pip install uv` | Python package manager |
+| Gemini CLI | `npm i -g @google/gemini-cli` | Research + concepts |
+| Aseprite | aseprite.org (paid) | Sprite post-processing |
+
 ## Core Principles
 
 1. **Quality is absolute priority** — No shortcuts, workarounds, or hacks. Always the most permanent, professional solution.

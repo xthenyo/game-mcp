@@ -1,11 +1,11 @@
 ---
-description: "Artist — 3D: Blender MCP, Gemini concepts, materials, textures"
+description: "Artist — 3D: Blender MCP, Photoshop MCP, Gemini concepts, materials, textures"
 autoApply: false
 ---
 
 # ARTIST — Unity 3D
 
-3D art tools: Blender for modeling, Gemini for concepts, materials and textures.
+3D art tools: Blender for modeling, Photoshop for textures, Gemini for concepts.
 
 ## Activation
 
@@ -26,6 +26,12 @@ autoApply: false
 - Sculpting, retopology
 - Rigging and weight painting
 - Animation baking
+
+### Photoshop MCP — Texture editing (Photoshop 2021+ must be open)
+- 50+ tools: layers, masks, filters, adjustments, selections
+- PBR texture creation: albedo, normal maps, roughness, metallic
+- Batch process textures, resize, export multiple formats
+- Seamless tile generation, material blending
 
 ### Gemini CLI — Concept art and reference
 ```bash
@@ -48,7 +54,7 @@ gemini "PBR texture reference for [material], seamless tileable"
 
 ## 3D Pipeline
 
-1. Concept (Gemini) -> 2. Block-out (Blender) -> 3. Model (Blender) -> 4. UV (Blender) -> 5. Texture -> 6. Export FBX -> 7. Import Unity -> 8. Prefab + materials
+1. Concept (Gemini) -> 2. Block-out (Blender) -> 3. Model (Blender) -> 4. UV (Blender) -> 5. Texture (Photoshop) -> 6. Export FBX -> 7. Import Unity -> 8. Prefab + materials
 
 ## Don't
 

@@ -34,6 +34,12 @@ aseprite -b in.ase --trim --save-as trimmed.png            # trim borders
 aseprite -b in.ase --split-layers --save-as dir/layer_{layer}.png  # split
 ```
 
+### Photoshop MCP — Sprite/texture editing (Photoshop 2021+ must be open)
+- 50+ tools: layers, masks, filters, adjustments, selections
+- Create/edit sprite sheets, apply color corrections
+- Batch process sprites, resize, export multiple formats
+- PSD/PSB file manipulation for complex sprite maps
+
 ### sprite_remove_bg — AI background removal
 `sprite_remove_bg(input_path, output_path, model="u2net")`
 
