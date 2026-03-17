@@ -10,6 +10,14 @@ from typing import Optional
 from .._context import PROJECT_ROOT, mcp
 
 
+def _safe_path(user_path: str) -> Path:
+    """Resolve a user-provided path and ensure it stays within PROJECT_ROOT."""
+    resolved = (PROJECT_ROOT / user_path).resolve()
+    if not str(resolved).startswith(str(PROJECT_ROOT.resolve())):
+        raise ValueError(f"Path escapes project root: {user_path}")
+    return resolved
+
+
 def _run(cmd: list[str], timeout: int = 120) -> tuple[int, str, str]:
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, cwd=str(PROJECT_ROOT))
@@ -34,10 +42,10 @@ def research(query: str, output_file: Optional[str] = None) -> dict:
     """Ask Gemini CLI to research a topic."""
     gemini = _find_exe("gemini")
     if not gemini:
-        return {"error": "Gemini CLI not found. Install: npm install -g @anthropic/gemini-cli"}
+        return {"error": "Gemini CLI not found. Install: npm install -g @google/gemini-cli"}
     prompt = query
     if output_file:
-        abs_path = PROJECT_ROOT / output_file
+        abs_path = _safe_path(output_file)
         abs_path.parent.mkdir(parents=True, exist_ok=True)
         prompt += f"\n\nWrite the full result to: {abs_path}"
     code, stdout, stderr = _run([gemini, prompt], timeout=180)
@@ -55,7 +63,7 @@ def generate_image(prompt: str, output_path: str, style: str = "") -> dict:
     gemini = _find_exe("gemini")
     if not gemini:
         return {"error": "Gemini CLI not found"}
-    abs_path = PROJECT_ROOT / output_path
+    abs_path = _safe_path(output_path)
     abs_path.parent.mkdir(parents=True, exist_ok=True)
     full_prompt = f"Generate an image: {prompt}"
     if style:
@@ -77,8 +85,8 @@ def sprite_flatten(input_path: str, output_path: str) -> dict:
     exe = _aseprite()
     if not exe:
         return {"error": "Aseprite not found. Set ASEPRITE_PATH or add to PATH."}
-    abs_in = str(PROJECT_ROOT / input_path)
-    abs_out = str(PROJECT_ROOT / output_path)
+    abs_in = str(_safe_path(input_path))
+    abs_out = str(_safe_path(output_path))
     Path(abs_out).parent.mkdir(parents=True, exist_ok=True)
     code, stdout, stderr = _run([exe, "-b", abs_in, "--flatten", "--save-as", abs_out])
     if code != 0:
@@ -92,12 +100,12 @@ def sprite_sheet(input_path: str, output_path: str, sheet_type: str = "horizonta
     exe = _aseprite()
     if not exe:
         return {"error": "Aseprite not found"}
-    abs_in = str(PROJECT_ROOT / input_path)
-    abs_out = str(PROJECT_ROOT / output_path)
+    abs_in = str(_safe_path(input_path))
+    abs_out = str(_safe_path(output_path))
     Path(abs_out).parent.mkdir(parents=True, exist_ok=True)
     cmd = [exe, "-b", abs_in, "--sheet", abs_out, "--sheet-type", sheet_type]
     if data_path:
-        cmd += ["--data", str(PROJECT_ROOT / data_path)]
+        cmd += ["--data", str(_safe_path(data_path))]
     code, stdout, stderr = _run(cmd)
     if code != 0:
         return {"error": f"Aseprite sheet failed: {stderr[:500]}"}
@@ -110,8 +118,8 @@ def sprite_sheet(input_path: str, output_path: str, sheet_type: str = "horizonta
 @mcp.tool(description="Remove background from an image — outputs transparent PNG.")
 def sprite_remove_bg(input_path: str, output_path: str, model: str = "u2net", alpha_matting: bool = False) -> dict:
     """AI-powered background removal."""
-    abs_in = PROJECT_ROOT / input_path
-    abs_out = PROJECT_ROOT / output_path
+    abs_in = _safe_path(input_path)
+    abs_out = _safe_path(output_path)
     if not abs_in.exists():
         return {"error": f"Input file not found: {input_path}"}
     abs_out.parent.mkdir(parents=True, exist_ok=True)

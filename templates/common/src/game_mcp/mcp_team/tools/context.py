@@ -14,12 +14,12 @@ def _ensure_decisions_file() -> None:
         DECISIONS_FILE.write_text(
             "# Decision Log\n\n"
             "Decisions made by agents. Every agent reads this on startup.\n"
-            "Auto-trimmed to 80 lines.\n\n",
+            "Auto-trimmed to 200 lines.\n\n",
             encoding="utf-8",
         )
 
 
-def _trim_decisions(max_lines: int = 80) -> None:
+def _trim_decisions(max_lines: int = 200) -> None:
     if not DECISIONS_FILE.exists():
         return
     lines = DECISIONS_FILE.read_text(encoding="utf-8").splitlines()
@@ -133,11 +133,14 @@ def get_context(role: str) -> dict:
 
     open_tasks = [t for t in actionable if t.status.value == "OPEN"]
     if open_tasks:
+        next_t = open_tasks[0]
         result["next_task"] = {
-            "id": open_tasks[0].id,
-            "title": open_tasks[0].title,
-            "priority": open_tasks[0].priority,
-            "instruction": f"claim_task({open_tasks[0].id}, '{role}') to start",
+            "id": next_t.id,
+            "title": next_t.title,
+            "priority": next_t.priority,
+            "agent_prompt": next_t.agent_prompt,
+            "files": next_t.files,
+            "instruction": f"claim_task({next_t.id}, '{role}') to start",
         }
 
     return result
