@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "game-mcp-team": {
+      "command": "uv",
+      "args": ["run", "--project", ".", "-m", "game_mcp.mcp_team"],
+      "env": {}
+    },
+    "blender": {
+      "command": "uvx",
+      "args": ["blender-mcp"]
+    },
+    "unity": {
+      "command": "npx",
+      "args": ["@anthropic/mcp-unity@latest"]
+    }
+  }
+}

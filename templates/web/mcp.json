@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "game-mcp-team": {
+      "command": "uv",
+      "args": ["run", "--project", ".", "-m", "game_mcp.mcp_team"],
+      "env": {}
+    }
+  }
+}

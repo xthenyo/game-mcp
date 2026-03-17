@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "game-mcp-team": {
+      "command": "uv",
+      "args": ["run", "--project", ".", "-m", "game_mcp.mcp_team"],
+      "env": {}
+    },
+    "pixellab": {
+      "url": "https://api.pixellab.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer ${PIXELLAB_API_TOKEN}"
+      }
+    },
+    "unity": {
+      "command": "npx",
+      "args": ["@anthropic/mcp-unity@latest"]
+    }
+  }
+}

@@ -1,0 +1,50 @@
+# Task templates by role — Lead uses these as starting points
+
+engineer:
+  title: "[System] Implement [feature]"
+  role: ENGINEER
+  priority: 50
+  description: |
+    Root cause: [file:line]
+    Solution: [approach]
+  agent_prompt: |
+    1. Read("path/to/file") — understand current state
+    2. [Specific implementation steps]
+    3. Success criteria: [what should work when done]
+
+designer:
+  title: "[Section] Write [topic] documentation"
+  role: DESIGNER
+  priority: 50
+  description: |
+    Bible section: [section]
+    Content needed: [specifics]
+  agent_prompt: |
+    1. Read existing docs in docs/bible/[section]/
+    2. Write [topic] with concrete values, IDs, cross-references
+    3. No [TBD], [TODO], or [PLACEHOLDER] — be specific
+
+artist:
+  title: "[Asset] Create [type] for [purpose]"
+  role: ARTIST
+  priority: 50
+  description: |
+    Asset type: [sprite/tileset/3d model/UI]
+    Style reference: [reference]
+  agent_prompt: |
+    1. Check art style guide in docs/bible/10-art/
+    2. Generate using [PixelLab/Blender/Gemini]
+    3. Post-process with [Aseprite/Blender]
+    4. Save to correct path with naming convention
+
+qa:
+  title: "[Review] Verify [feature/task]"
+  role: QA
+  priority: 30
+  description: |
+    Verify task #[id] output
+    Run 5-check gate
+  agent_prompt: |
+    1. Read the files changed in task #[id]
+    2. Run 5-check gate: Coherence, Convention, Build, Regression, Performance
+    3. Report results

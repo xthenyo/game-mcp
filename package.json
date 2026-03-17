@@ -1,5 +1,44 @@
 {
+  "name": "game-mcp",
+  "version": "1.0.0",
+  "description": "Multi-agent game development framework for Claude Code — Web, Unity 2D, Unity 3D",
+  "type": "module",
+  "bin": {
+    "game-mcp": "./bin/game-mcp.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "templates/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin/game-mcp.js"
+  },
+  "keywords": [
+    "game-development",
+    "claude-code",
+    "mcp",
+    "multi-agent",
+    "unity",
+    "web-game",
+    "ai-assisted",
+    "game-framework"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xthenyo/game-mcp.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
-    "pixellab-mcp": "^1.1.0"
+    "@inquirer/prompts": "^7.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.0",
+    "fs-extra": "^11.2.0"
   }
 }

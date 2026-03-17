@@ -1,157 +1,117 @@
 # Game MCP
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Unity 6](https://img.shields.io/badge/Unity-6-black.svg)](https://unity.com/)
-[![Claude Code](https://img.shields.io/badge/Claude-Code-orange.svg)](https://claude.ai/)
-
-**Bible-first game development with multi-agent AI team simulation.**
-
-Design your game completely in documentation (the "Bible") before writing a single line of code. Each Claude Code chat window becomes a specialized team member working together through a shared MCP server.
-
----
+Multi-agent game development framework for **Claude Code**. Build games with an AI team — Lead, Engineer, Designer, Artist, QA, and Story Consultant.
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/xthenyo/game-mcp.git my-game
-cd my-game
-bash setup.sh "My Game" MG
+npx game-mcp
 ```
 
-Then open VS Code, launch Claude Code, and type `/lead` to start.
+The CLI will guide you through:
 
----
+1. **Game name** and code
+2. **Game type** — Web (HTML/JS), Unity 2D, or Unity 3D
+3. **API keys** — Gemini, PixelLab, GitHub/GitLab (stored encrypted, gitignored)
+4. **Platform targets** — PC, iOS, Android, Steam
+5. **Git provider** — GitHub, GitLab, or local
+
+Then open the project in **Claude Code** and type `/lead` to start.
+
+## Game Types
+
+### Web Game
+- Single HTML file with inline CSS/JS
+- Canvas API game loop
+- Packageable for Steam via Electron
+- No dependencies, pure vanilla JS
+
+### Unity 2D
+- Unity 6 with URP 2D
+- PixelLab MCP for AI pixel art generation
+- Aseprite CLI for sprite post-processing
+- VContainer DI + UniTask async
+
+### Unity 3D
+- Unity 6 with URP 3D
+- Blender MCP for 3D modeling
+- PBR materials and lighting
+- VContainer DI + UniTask async
 
 ## How It Works
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    VS Code + Claude Code                    │
-│                                                             │
-│   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   │
-│   │  /lead  │   │/engineer│   │/designer│   │  /qa    │   │
-│   │         │   │         │   │         │   │         │   │
-│   │Decisions│   │  Code   │   │  Docs   │   │ Testing │   │
-│   └────┬────┘   └────┬────┘   └────┬────┘   └────┬────┘   │
-│        │             │             │             │         │
-│        └─────────────┴──────┬──────┴─────────────┘         │
-│                             ▼                               │
-│                    ┌─────────────┐                          │
-│                    │ MCP Server  │                          │
-│                    │Shared State │                          │
-│                    └─────────────┘                          │
-└─────────────────────────────────────────────────────────────┘
-```
+Game MCP uses a **Bible-first** approach: design your game completely in documentation before writing code.
 
-Open multiple chat windows, assign roles with slash commands, and collaborate like a real team.
+### Agent Roles
 
----
+| Command | Role | What They Do |
+|---------|------|-------------|
+| `/lead` | Team Lead | Research, plan, create tasks |
+| `/engineer` | Engineer | Write game code |
+| `/designer` | Designer | Write game design docs |
+| `/artist` | Artist | Generate and process art assets |
+| `/qa` | QA | 5-check verification of all changes |
+| `/story` | Story | Narrative structure consulting |
 
-## Roles
-
-| Command | Role | Domain |
-|---------|------|--------|
-| `/lead` | Team Lead | Coordination, decisions, tasks |
-| `/engineer` | Engineer | Unity C# code, gameplay, systems |
-| `/designer` | Designer | Game design docs (Bible) |
-| `/artist` | Artist | AI art, sprites, 3D, UI |
-| `/qa` | QA | Testing, validation, builds |
-| `/story` | Story | Narrative structure analysis |
-
----
-
-## MCP Servers
-
-| Server | Purpose |
-|--------|---------|
-| **doomed-team** | Task management, Bible status, decision log, cross-agent context |
-| **PixelLab** | AI pixel art generation (characters, tiles, animations) |
-| **Blender MCP** | 3D modeling and rendering |
-| **Unity MCP** | Unity Editor integration |
-
----
-
-## Workflow
+### Task Flow
 
 ```
-DISCOVERY → DESIGN → PLANNING → DEVELOPMENT → QA → RELEASE
+/lead → analyzes request → creates tasks with priorities
+/engineer → claims task → implements → self-reviews → completes
+/qa → verifies → 5-check gate → approves or reports bugs
 ```
 
-**Rule:** Complete Bible documentation before writing code.
+## Requirements
 
----
-
-## Project Structure
-
-```
-├── .claude/commands/    # Role definitions (slash commands)
-├── docs/bible/          # Game design documentation
-│   ├── 00-meta/         # Project config, glossary
-│   ├── 01-vision/       # GDD, pillars, references
-│   ├── 02-mechanics/    # Core loop, systems, rules
-│   ├── 03-entities/     # Player, NPCs, groups
-│   ├── 04-attributes/   # Character attributes
-│   ├── 05-world/        # Map, locations
-│   ├── 06-narrative/    # Story, branches
-│   ├── 07-quests/       # Quest definitions
-│   ├── 08-relations/    # NPC relationships
-│   ├── 09-events/       # Events, triggers
-│   ├── 10-art/          # Art style, UI specs
-│   ├── 11-release/      # Platform config
-│   └── 12-audio/        # Audio specs
-├── workflow/            # Tasks, state, decisions
-├── src/doomed/mcp_team/ # MCP server (multi-agent shared state)
-└── Assets/_Project/     # Unity game code
-```
-
----
-
-## Setup
-
-### Prerequisites
-
-- [Python 3.11+](https://python.org)
-- [uv](https://github.com/astral-sh/uv) (Python package manager)
+- [Claude Code](https://claude.ai/code) (CLI)
+- [Python 3.11+](https://python.org) + [uv](https://docs.astral.sh/uv/)
 - [Git](https://git-scm.com)
-- [VS Code](https://code.visualstudio.com) with [Claude Code](https://claude.ai/claude-code)
-- [Unity 6](https://unity.com) (for game development)
+- [Node.js 18+](https://nodejs.org) (for CLI and web games)
 
-### MCP Configuration
+### Optional (by game type)
 
-After running `setup.sh`, edit `.mcp.json` to set your API keys:
+| Tool | Web | Unity 2D | Unity 3D |
+|------|-----|----------|----------|
+| [Unity 6](https://unity.com) | | Required | Required |
+| [Blender](https://blender.org) | | | Required |
+| [Aseprite](https://aseprite.org) | | Recommended | |
+| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | Recommended | Recommended | Recommended |
 
-```json
-{
-  "mcpServers": {
-    "pixellab": {
-      "headers": {
-        "Authorization": "Bearer YOUR_PIXELLAB_TOKEN"
-      }
-    }
-  }
-}
+### API Keys (optional, enable AI features)
+
+| Key | Purpose | Get it at |
+|-----|---------|-----------|
+| `GOOGLE_API_KEY` | Gemini research + image gen | [Google AI Studio](https://aistudio.google.com) |
+| `PIXELLAB_API_TOKEN` | AI pixel art (2D) | [PixelLab](https://pixellab.ai) |
+| `RODIN_API_KEY` | AI 3D models (3D) | [Rodin](https://hyper.ai) |
+| `GIT_TOKEN` | GitHub/GitLab integration | GitHub/GitLab settings |
+
+## Project Structure (after setup)
+
+```
+my-game/
+├── .claude/           # Claude Code config + agent commands
+│   ├── CLAUDE.md      # Project instructions
+│   ├── settings.json  # Permissions
+│   └── commands/      # /lead, /engineer, /designer, /artist, /qa, /story
+├── .mcp.json          # MCP server config
+├── .env               # API keys (gitignored)
+├── src/               # Game code (HTML or Unity scripts)
+├── docs/bible/        # Game design document (13 sections)
+├── workflow/           # Task management state
+├── game-mcp.json      # Project config
+└── pyproject.toml     # MCP server dependencies
 ```
 
-Optional environment variables:
-- `GOOGLE_API_KEY` — For Gemini image generation
-- `PIXELLAB_API_TOKEN` — For PixelLab pixel art
-- `ASEPRITE_PATH` — Path to Aseprite executable
+## MCP Server
 
----
+The framework includes a Python MCP server (`game-mcp-team`) that provides:
 
-## Tech Stack
-
-| Technology | Purpose |
-|------------|---------|
-| Unity 6 (URP) | Game Engine |
-| VContainer | Dependency Injection |
-| UniTask | Async Operations |
-| UI Toolkit | User Interface |
-| Ink | Dialogue System |
-| MCP | Multi-agent coordination |
-
----
+- **Task management** — create, claim, complete, search tasks with priorities
+- **Decision log** — cross-agent context sharing
+- **Bible status** — documentation completeness tracking
+- **External tools** — Gemini CLI, Aseprite CLI, background removal
 
 ## License
 
-MIT License - See [LICENSE](LICENSE)
+MIT

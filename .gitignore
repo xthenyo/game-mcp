@@ -1,70 +1,8 @@
-# Unity
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-[Ll]ogs/
-[Mm]emoryCaptures/
-[Rr]ecordings/
-[Uu]serSettings/
-
-# Builds
-*.apk
-*.aab
-*.unitypackage
-*.aar
-*.jar
-*.exe
-*.app
-
-# IDE
-.vs/
-.vscode/*
-!.vscode/mcp.json
-.idea/
-*.sln
-*.slnx
-*.csproj
-*.csproj.user
-*.unityproj
-
-# OS
-.DS_Store
-Thumbs.db
-*.swp
-*~
-
-# Environment
-*.log
+node_modules/
 .env
 .env.local
-.mcp.json
-
-# Python
-__pycache__/
-*.pyc
-.venv/
-
-# MCP State (project-specific, don't share)
-workflow/team-state.json
-workflow/.state-*.tmp
-workflow/audit-*.jsonl
-workflow/activity-archive-*.jsonl
-workflow/team-state.lock
-
-# Generated art assets
-Assets/_Project/Art/Generated/
-
-# Large source files
-*.psd
-*.psb
-
-# Backups
-_old-assets/
-_backup/
-_reference/
-
-# Lock files
-uv.lock
-package-lock.json
+.DS_Store
+Thumbs.db
+*.log
+dist/
+.cache/
