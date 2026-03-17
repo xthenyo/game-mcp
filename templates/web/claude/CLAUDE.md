@@ -18,6 +18,8 @@ This project uses these MCP servers (configured in `.mcp.json`):
 | Server | Purpose | Status Check |
 |--------|---------|-------------|
 | `game-mcp-team` | Task management, decisions, Bible tracking | `get_context("LEAD")` |
+| `context7` | Up-to-date library documentation | Auto (npx) |
+| `sequential-thinking` | Structured problem solving | Auto (npx) |
 
 ## Required Tools
 
@@ -66,7 +68,8 @@ Placeholder check: `Grep(pattern="\[(PLACEHOLDER|TBD|TODO)\]", path="docs/bible/
 | `/lead` | Team Lead | Research -> be 100% sure -> write tasks -> write agent prompts |
 | `/engineer` | Engineer | HTML/CSS/JS code |
 | `/designer` | Designer | Bible documents |
-| `/artist` | Artist | Gemini image gen, CSS art, SVG |
+| `/artist` | Artist | Gemini image gen, CSS art, SVG, ComfyUI |
+| `/audio` | Audio Engineer | Music, SFX, ambient (REAPER MCP) |
 | `/qa` | QA | 5-check verification, testing |
 | `/story` | Story | Consultant: story structure analysis |
 
@@ -91,7 +94,10 @@ get_context(role) -> claim_task(id, role) -> do work -> log_decision(role, decis
 
 ```
 src/index.html                    # Main game file (everything in one file)
-src/assets/                       # Images, sounds
+src/assets/images/                # Images
+src/assets/audio/music/           # Background music
+src/assets/audio/sfx/             # Sound effects
+src/assets/audio/ambient/         # Ambient loops
 docs/bible/{00-meta -> 12-audio}/ # Game design document
 workflow/                         # Task state, decisions
 ```

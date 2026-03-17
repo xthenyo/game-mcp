@@ -43,6 +43,14 @@ aseprite -b in.ase --split-layers --save-as dir/layer_{layer}.png  # split
 ### sprite_remove_bg — AI background removal
 `sprite_remove_bg(input_path, output_path, model="u2net")`
 
+### ComfyUI MCP — Local Stable Diffusion (if enabled)
+- Generate concept art, references, textures locally
+- `get_status` — check ComfyUI connection and available models
+- `generate_image` — run txt2img/img2img workflows
+- Best for: concept art, reference sheets, texture generation
+- Use PixelLab for final pixel art, ComfyUI for concepts/references
+- ComfyUI must be running at localhost:8000
+
 ### Gemini CLI — Reference research and concept art
 ```bash
 gemini "pixel art style references for [topic], 32x32 sprite"

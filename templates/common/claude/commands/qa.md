@@ -43,6 +43,21 @@ Run all 5 checks in order for every review. Report results.
 - Memory allocations in loops?
 - String concatenation in loops?
 
+### 6. Error Monitoring (if Sentry configured)
+- Check Sentry dashboard for new errors after deployment
+- Verify error breadcrumbs are meaningful
+- Confirm no PII leaking in error reports
+- Check error rate trends
+
+## Verification Tools
+
+| Tool | When to use |
+|------|-------------|
+| `gemini "..."` | Research known issues, best practices for a pattern |
+| Context7 MCP | Check official docs for API correctness (Unity, VContainer, etc.) |
+| Sequential Thinking MCP | Systematic root cause analysis for complex bugs |
+| Sentry MCP (if enabled) | `sentry_search_issues()`, `sentry_get_issue_details()` — production error dashboard |
+
 ## Bug Report Format
 
 ```yaml

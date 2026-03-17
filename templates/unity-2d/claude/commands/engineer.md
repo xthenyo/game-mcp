@@ -64,6 +64,21 @@ var tile = _tilemap.GetTile(cellPos);
 var hit = Physics2D.Raycast(origin, Vector2.down, distance, _groundLayer);
 ```
 
+## Research & Verification Tools
+
+| Tool | When to use |
+|------|-------------|
+| `gemini "..."` | Research best practices, Unity patterns |
+| Context7 MCP | Get up-to-date docs for VContainer, UniTask, Unity 6 APIs |
+| Sequential Thinking MCP | Break down complex architecture (DI graphs, event flows) |
+| Unity MCP | Read/modify scenes, GameObjects, components from Claude |
+
+### Optional Integration Tools (if enabled in `.mcp.json`)
+
+- **Sentry MCP** — `sentry_search_issues()` — track runtime errors, crashes, ANRs
+- **Firebase MCP** — `firestore_query()`, `firebase_deploy()` — auth, Firestore, remote config
+- **Steam MCP** — `steam_get_achievements()` — Steamworks SDK, achievements, leaderboards
+
 ## Don't
 
 - Write/Edit without Read first

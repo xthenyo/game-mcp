@@ -22,6 +22,8 @@ This project uses these MCP servers (configured in `.mcp.json`):
 | `pixellab` | AI pixel art generation | Needs `PIXELLAB_API_TOKEN` in `.env` |
 | `photoshop` | Sprite/texture editing (50+ tools) | Photoshop 2021+ must be open |
 | `unity` | Unity editor control | Unity must be open with project loaded |
+| `context7` | Up-to-date library docs (Unity, VContainer, UniTask) | Auto (npx) |
+| `sequential-thinking` | Structured problem solving | Auto (npx) |
 
 **Troubleshooting:**
 - If PixelLab fails: check `.env` has `PIXELLAB_API_TOKEN=your_token_here`
@@ -87,7 +89,8 @@ Placeholder check: `Grep(pattern="\[(PLACEHOLDER|TBD|TODO)\]", path="docs/bible/
 | `/lead` | Team Lead | Research -> be 100% sure -> write tasks -> write agent prompts |
 | `/engineer` | Engineer | Unity C# code |
 | `/designer` | Designer | Bible documents |
-| `/artist` | Artist | PixelLab pixel art, Aseprite, Gemini concepts |
+| `/artist` | Artist | PixelLab, Aseprite, Photoshop, ComfyUI |
+| `/audio` | Audio Engineer | Music, SFX, ambient (REAPER MCP) |
 | `/qa` | QA | 5-check verification, testing, builds |
 | `/story` | Story | Consultant: story structure analysis |
 
@@ -124,6 +127,7 @@ get_context(role) -> claim_task(id, role) -> do work -> log_decision(role, decis
 ```
 Assets/_Project/Scripts/{Core,Gameplay,UI,Services,Generated,Editor}/
 Assets/_Project/Art/{Sprites,Tilesets,UI,Animations}/
+Assets/_Project/Audio/{Music,SFX,Ambient,UI}/
 Assets/_Project/Prefabs/
 Assets/_Project/Scenes/
 src/game_mcp/mcp_team/

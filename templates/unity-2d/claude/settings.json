@@ -13,7 +13,9 @@
       "mcp__game-mcp-team__*",
       "mcp__pixellab__*",
       "mcp__photoshop__*",
-      "mcp__unity__*"
+      "mcp__unity__*",
+      "mcp__context7__*",
+      "mcp__sequential-thinking__*"
     ],
     "deny": []
   },

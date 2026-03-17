@@ -67,6 +67,21 @@ _navAgent.SetDestination(targetPosition);
 [SerializeField] private LODGroup _lodGroup;
 ```
 
+## Research & Verification Tools
+
+| Tool | When to use |
+|------|-------------|
+| `gemini "..."` | Research best practices, 3D engine patterns |
+| Context7 MCP | Get up-to-date docs for VContainer, UniTask, Unity 6 APIs |
+| Sequential Thinking MCP | Break down complex 3D architecture (LOD, NavMesh, lighting) |
+| Unity MCP | Read/modify scenes, GameObjects, components from Claude |
+
+### Optional Integration Tools (if enabled in `.mcp.json`)
+
+- **Sentry MCP** — `sentry_search_issues()` — track runtime errors, crashes, ANRs
+- **Firebase MCP** — `firestore_query()`, `firebase_deploy()` — auth, Firestore, remote config
+- **Steam MCP** — `steam_get_achievements()` — Steamworks SDK, achievements, leaderboards
+
 ## Don't
 
 - Write/Edit without Read first

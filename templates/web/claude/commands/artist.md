@@ -38,6 +38,14 @@ gemini "Generate pixel art style [description] for web game, transparent backgro
 - Sprite sheets loaded as Image objects
 - Pixel manipulation for effects
 
+### ComfyUI MCP — Local Stable Diffusion (if enabled)
+- Generate concept art, backgrounds, textures locally
+- `get_status` — check ComfyUI connection and models
+- `generate_image` — run txt2img workflows
+- Full workflow control: model selection, LoRA, ControlNet
+- Best for: backgrounds, concept art, UI textures
+- ComfyUI must be running at localhost:8000
+
 ## Output Rules
 
 - Save generated images to: `src/assets/`

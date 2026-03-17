@@ -1,50 +1,251 @@
 # Task templates by role — Lead uses these as starting points
 
-engineer:
-  title: "[System] Implement [feature]"
+# ── DESIGNER ──────────────────────────────────────────
+designer_bible_vision:
+  title: "[Bible] Write game vision and core pillars"
+  role: DESIGNER
+  priority: 10
+  description: "Define the game's identity, target audience, and design pillars"
+  agent_prompt: |
+    1. Read docs/bible/01-vision/ for existing content
+    2. Write: core concept, target audience, platform strategy, unique selling points
+    3. Define 3-5 design pillars that guide ALL future decisions
+    4. No [TBD] or [PLACEHOLDER] — be concrete
+
+designer_bible_mechanics:
+  title: "[Bible] Define core mechanics and systems"
+  role: DESIGNER
+  priority: 10
+  description: "Document all gameplay systems with concrete values"
+  agent_prompt: |
+    1. Read docs/bible/01-vision/ to understand design pillars
+    2. Write to docs/bible/02-mechanics/: movement, combat, progression, economy
+    3. Include exact values: speeds, damage, cooldowns, rates
+    4. Cross-reference entity IDs from 03-entities
+
+designer_bible_entities:
+  title: "[Bible] Document all entities and NPCs"
+  role: DESIGNER
+  priority: 15
+  description: "Define every game entity with IDs and attributes"
+  agent_prompt: |
+    1. Read 02-mechanics for systems that need entities
+    2. Write to docs/bible/03-entities/: player, NPCs, enemies, items
+    3. Use IDs: npc_merchant_01, enemy_slime_green, item_potion_hp
+    4. Reference attributes from 04-attributes
+
+designer_bible_art:
+  title: "[Bible] Create art style guide"
+  role: DESIGNER
+  priority: 15
+  description: "Define visual direction, color palette, asset specs"
+  agent_prompt: |
+    1. Read 01-vision for mood and audience
+    2. Write to docs/bible/10-art/: color palette (hex values), style reference
+    3. Define asset specs: resolution, poly count, PPU, naming convention
+    4. Include example references and mood boards description
+
+designer_bible_audio:
+  title: "[Bible] Define audio direction and specs"
+  role: DESIGNER
+  priority: 20
+  description: "Define musical direction, SFX requirements, audio specs"
+  agent_prompt: |
+    1. Read 01-vision and 05-world for mood/environments
+    2. Write to docs/bible/12-audio/: musical style, instruments, mood per area
+    3. List ALL required SFX by category (player, UI, environment, combat)
+    4. Define specs: format, sample rate, loudness targets
+
+# ── ENGINEER ──────────────────────────────────────────
+engineer_core:
+  title: "[Core] Implement [feature]"
   role: ENGINEER
-  priority: 50
-  description: |
-    Root cause: [file:line]
-    Solution: [approach]
+  priority: 30
+  description: "Root cause: [file:line]. Solution: [approach]"
   agent_prompt: |
     1. Read("path/to/file") — understand current state
     2. [Specific implementation steps]
     3. Success criteria: [what should work when done]
 
-designer:
-  title: "[Section] Write [topic] documentation"
-  role: DESIGNER
-  priority: 50
-  description: |
-    Bible section: [section]
-    Content needed: [specifics]
+engineer_sentry:
+  title: "[Platform] Set up Sentry error tracking"
+  role: ENGINEER
+  priority: 25
+  description: "Integrate Sentry SDK for crash reporting and error monitoring"
   agent_prompt: |
-    1. Read existing docs in docs/bible/[section]/
-    2. Write [topic] with concrete values, IDs, cross-references
-    3. No [TBD], [TODO], or [PLACEHOLDER] — be specific
+    1. Check game-mcp.json for Sentry integration
+    2. Install Sentry SDK (npm/Unity package)
+    3. Initialize with DSN from Sentry dashboard
+    4. Add breadcrumbs for key game events
+    5. Test error capture with intentional throw
 
-artist:
-  title: "[Asset] Create [type] for [purpose]"
+engineer_firebase:
+  title: "[Platform] Set up Firebase backend"
+  role: ENGINEER
+  priority: 25
+  description: "Initialize Firebase for auth, Firestore, and/or hosting"
+  agent_prompt: |
+    1. Check game-mcp.json for Firebase integration
+    2. Use Firebase MCP to initialize project config
+    3. Set up Authentication (email/password or anonymous)
+    4. Create Firestore collections for game data
+    5. Test connection and CRUD operations
+
+engineer_steam:
+  title: "[Platform] Configure Steam integration"
+  role: ENGINEER
+  priority: 40
+  description: "Set up Steamworks SDK for achievements, leaderboards, store"
+  agent_prompt: |
+    1. Check game-mcp.json for Steam integration
+    2. Set up Steamworks SDK in project
+    3. Configure app ID and achievements
+    4. Implement Steam overlay and cloud save hooks
+    5. Test with Steam client running
+
+engineer_audio_manager:
+  title: "[System] Implement audio manager"
+  role: ENGINEER
+  priority: 35
+  description: "Create audio system to play music, SFX, ambient from Audio agent output"
+  agent_prompt: |
+    1. Read docs/bible/12-audio/ for audio specs
+    2. Create AudioManager with channels: Music, SFX, Ambient, UI
+    3. Implement: volume control, crossfade, spatial audio (3D)
+    4. Load audio files from standard paths
+    5. Expose API for other systems to play sounds
+
+# ── ARTIST ────────────────────────────────────────────
+artist_sprite:
+  title: "[Sprite] Create [asset] sprite sheet"
   role: ARTIST
-  priority: 50
-  description: |
-    Asset type: [sprite/tileset/3d model/UI]
-    Style reference: [reference]
-  agent_prompt: |
-    1. Check art style guide in docs/bible/10-art/
-    2. Generate using [PixelLab/Blender/Gemini]
-    3. Post-process with [Aseprite/Blender]
-    4. Save to correct path with naming convention
-
-qa:
-  title: "[Review] Verify [feature/task]"
-  role: QA
   priority: 30
-  description: |
-    Verify task #[id] output
-    Run 5-check gate
+  description: "Generate pixel art sprite for [entity]"
+  agent_prompt: |
+    1. Read docs/bible/10-art/ for style guide
+    2. Read docs/bible/03-entities/ for entity description
+    3. Generate with PixelLab MCP or Gemini CLI
+    4. Process with Aseprite: flatten, export sheet
+    5. Save: Assets/_Project/Art/Sprites/{name}.png
+
+artist_3d_model:
+  title: "[Model] Create [asset] 3D model"
+  role: ARTIST
+  priority: 30
+  description: "Model, UV, texture for [entity]"
+  agent_prompt: |
+    1. Read docs/bible/10-art/ for style and poly budget
+    2. Model in Blender MCP: block-out → detail → UV unwrap
+    3. Create PBR textures via Photoshop MCP
+    4. Export FBX to Assets/_Project/Models/
+    5. Verify: poly count, UV coverage, material assignment
+
+artist_concept:
+  title: "[Concept] Generate concept art for [subject]"
+  role: ARTIST
+  priority: 20
+  description: "Create reference concept art using AI generation"
+  agent_prompt: |
+    1. Read Bible for design direction
+    2. Generate concepts via Gemini CLI or ComfyUI MCP (if available)
+    3. Create 3-5 variations
+    4. Save to docs/concepts/ with descriptive names
+    5. Log decision on chosen direction
+
+artist_ui:
+  title: "[UI] Design [screen] interface"
+  role: ARTIST
+  priority: 30
+  description: "Create UI mockup and assets for [screen]"
+  agent_prompt: |
+    1. Read docs/bible/10-art/ for UI style
+    2. Design layout and create assets (icons, buttons, panels)
+    3. Process with Photoshop MCP if available
+    4. Export individual elements + full mockup
+    5. Save to correct UI assets path
+
+# ── AUDIO ─────────────────────────────────────────────
+audio_music:
+  title: "[Music] Compose [track name] for [scene/mood]"
+  role: AUDIO
+  priority: 30
+  description: "Create music track matching Bible audio specs"
+  agent_prompt: |
+    1. Read docs/bible/12-audio/ for musical direction
+    2. Create REAPER project (or document specs if no REAPER MCP)
+    3. Compose: melody, harmony, rhythm, arrangement
+    4. Mix and master to -14 LUFS
+    5. Export: WAV (master) + OGG (game-ready)
+    6. Save to Audio/Music/ path
+
+audio_sfx:
+  title: "[SFX] Create sound effects for [category]"
+  role: AUDIO
+  priority: 30
+  description: "Produce SFX batch for [player/UI/environment/combat]"
+  agent_prompt: |
+    1. Read docs/bible/12-audio/ for SFX requirements list
+    2. Create/source base sounds in REAPER
+    3. Process: EQ, reverb, normalization
+    4. Export as WAV 44.1kHz 16-bit
+    5. Name: sfx_{category}_{action}_{variant}.wav
+    6. Save to Audio/SFX/ path
+
+audio_ambient:
+  title: "[Ambient] Create ambient loop for [environment]"
+  role: AUDIO
+  priority: 35
+  description: "Create seamless ambient audio loop"
+  agent_prompt: |
+    1. Read docs/bible/05-world/ for environment description
+    2. Read docs/bible/12-audio/ for ambient specs
+    3. Layer: base drone + details + occasional events
+    4. Ensure seamless loop (crossfade test)
+    5. Export as OGG, 30-60 seconds
+    6. Save to Audio/Ambient/ path
+
+# ── QA ────────────────────────────────────────────────
+qa_verify:
+  title: "[Review] Verify [feature/task] — 5-check gate"
+  role: QA
+  priority: 40
+  description: "Verify task #[id] output meets quality standards"
   agent_prompt: |
     1. Read the files changed in task #[id]
     2. Run 5-check gate: Coherence, Convention, Build, Regression, Performance
-    3. Report results
+    3. If Sentry configured: check error dashboard for new issues
+    4. Report results with pass/fail per gate
+
+qa_art_review:
+  title: "[Review] Verify art assets match Bible specs"
+  role: QA
+  priority: 40
+  description: "Check art assets against 10-art Bible section"
+  agent_prompt: |
+    1. Read docs/bible/10-art/ for specs
+    2. Check: resolution, naming convention, file format, color palette
+    3. Verify assets are in correct output paths
+    4. Report any deviations
+
+qa_audio_review:
+  title: "[Review] Verify audio quality and specs"
+  role: QA
+  priority: 40
+  description: "Check audio files against 12-audio Bible section"
+  agent_prompt: |
+    1. Read docs/bible/12-audio/ for specs
+    2. Check: sample rate, format, loudness, naming convention
+    3. Verify loop points for ambient/music
+    4. Report any deviations
+
+qa_regression:
+  title: "[Review] Full regression test"
+  role: QA
+  priority: 50
+  description: "Complete project regression after major integration"
+  agent_prompt: |
+    1. Read all recent decisions from log
+    2. Check ALL modified files since last regression
+    3. Run 5-check gate on each change
+    4. If Sentry: check for new error patterns
+    5. Full coherence check across systems

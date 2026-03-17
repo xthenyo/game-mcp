@@ -61,6 +61,20 @@ document.addEventListener('keydown', (e) => {
 - Event-driven input system
 - State machine for game screens (menu, play, pause, gameover)
 
+## Research & Verification Tools
+
+| Tool | When to use |
+|------|-------------|
+| `gemini "..."` | Research best practices, algorithms, patterns |
+| Context7 MCP | Get up-to-date library docs (Canvas API, Web Audio, etc.) |
+| Sequential Thinking MCP | Break down complex architectural decisions step by step |
+
+### Optional Integration Tools (if enabled in `.mcp.json`)
+
+- **Sentry MCP** — `sentry_search_issues()`, `sentry_get_issue_details()` — check error dashboard after deployment
+- **Firebase MCP** — `firebase_deploy()`, `firestore_query()` — backend, auth, hosting
+- **Steam MCP** — `steam_get_achievements()`, `steam_get_player_stats()` — Steamworks integration (Electron builds)
+
 ## Don't
 
 - Use external libraries or CDN links

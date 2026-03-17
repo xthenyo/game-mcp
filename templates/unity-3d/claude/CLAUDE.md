@@ -23,6 +23,8 @@ This project uses these MCP servers (configured in `.mcp.json`):
 | `blender` | 3D modeling, UV, materials, export | Blender must be open |
 | `photoshop` | Texture/material editing (50+ tools) | Photoshop 2021+ must be open |
 | `unity` | Unity editor control | Unity must be open with project loaded |
+| `context7` | Up-to-date library docs (Unity, VContainer, UniTask) | Auto (npx) |
+| `sequential-thinking` | Structured problem solving | Auto (npx) |
 
 **Troubleshooting:**
 - If Blender MCP fails: make sure Blender 3.6+ is open, install blender-mcp addon
@@ -88,7 +90,8 @@ Placeholder check: `Grep(pattern="\[(PLACEHOLDER|TBD|TODO)\]", path="docs/bible/
 | `/lead` | Team Lead | Research -> be 100% sure -> write tasks -> write agent prompts |
 | `/engineer` | Engineer | Unity C# code |
 | `/designer` | Designer | Bible documents |
-| `/artist` | Artist | Blender 3D, Gemini concepts, materials |
+| `/artist` | Artist | Blender, Photoshop, ComfyUI |
+| `/audio` | Audio Engineer | Music, SFX, ambient (REAPER MCP) |
 | `/qa` | QA | 5-check verification, testing, builds |
 | `/story` | Story | Consultant: story structure analysis |
 
@@ -128,6 +131,7 @@ Assets/_Project/Materials/
 Assets/_Project/Prefabs/
 Assets/_Project/Scenes/
 Assets/_Project/Animations/
+Assets/_Project/Audio/{Music,SFX,Ambient,UI}/
 src/game_mcp/mcp_team/
 docs/bible/{00-meta -> 12-audio}/
 workflow/{team-state.json, decisions.md, archive/}

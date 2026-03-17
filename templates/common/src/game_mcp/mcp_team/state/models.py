@@ -16,8 +16,8 @@ class TaskStatus(str, Enum):
     BLOCKED = "BLOCKED"
 
 
-VALID_ROLES = frozenset({"LEAD", "ENGINEER", "DESIGNER", "ARTIST", "QA"})
-EXECUTOR_ROLES = frozenset({"ENGINEER", "DESIGNER", "ARTIST", "QA"})
+VALID_ROLES = frozenset({"LEAD", "ENGINEER", "DESIGNER", "ARTIST", "AUDIO", "QA"})
+EXECUTOR_ROLES = frozenset({"ENGINEER", "DESIGNER", "ARTIST", "AUDIO", "QA"})
 
 
 class Task(BaseModel):

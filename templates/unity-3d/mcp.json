@@ -13,12 +13,23 @@
       }
     },
     "photoshop": {
-      "command": "npx",
-      "args": ["-y", "photoshop-mcp@latest"]
+      "command": "uvx",
+      "args": ["--python", "3.10", "photoshop-mcp-server"],
+      "env": {
+        "PS_VERSION": "2021"
+      }
     },
     "unity": {
       "command": "npx",
-      "args": ["@anthropic/mcp-unity@latest"]
+      "args": ["-y", "unity-mcp-cli", "connect"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
     }
   }
 }
