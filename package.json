@@ -1,10 +1,10 @@
 {
   "name": "game-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Multi-agent game development framework for Claude Code — Web, Unity 2D, Unity 3D",
   "type": "module",
   "bin": {
-    "game-mcp": "./bin/game-mcp.js"
+    "game-mcp": "bin/game-mcp.js"
   },
   "files": [
     "bin/",
@@ -30,7 +30,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xthenyo/game-mcp.git"
+    "url": "git+https://github.com/xthenyo/game-mcp.git"
   },
   "engines": {
     "node": ">=18.0.0"
