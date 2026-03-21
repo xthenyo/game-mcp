@@ -176,9 +176,11 @@ def search_tasks(query: str) -> dict:
     return {"tasks": [t.model_dump() for t in matches], "count": len(matches)}
 
 
-@mcp.tool(description="Update task status (BLOCKED or re-opening). Use claim_task/complete_task for normal flow.")
-def update_task(task_id: int, status: str, note: Optional[str] = None) -> dict:
-    """Change a task's status."""
+@mcp.tool(description="Update task status (BLOCKED or re-opening). Only LEAD or the assigned role can update.")
+def update_task(task_id: int, status: str, caller_role: str = "LEAD", note: Optional[str] = None) -> dict:
+    """Change a task's status. Restricted to LEAD or the task's assigned role."""
+    caller = caller_role.upper()
+
     try:
         new_status = TaskStatus(status.upper())
     except ValueError:
@@ -191,9 +193,15 @@ def update_task(task_id: int, status: str, note: Optional[str] = None) -> dict:
         task = state.get_task(task_id)
         if not task:
             return {"success": False, "message": f"Task #{task_id} not found"}
+        if caller != "LEAD" and caller != task.role:
+            return {"success": False, "message": f"REJECTED: Only LEAD or {task.role} can update Task #{task_id}. Got '{caller}'."}
+
         old_status = task.status
         task.status = new_status
-        entry = f"{now_str()}: {old_status.value} -> {new_status.value}"
+        # Clear lock if re-opening a stuck task
+        if new_status == TaskStatus.OPEN:
+            task.locked_by = None
+        entry = f"{now_str()}: {old_status.value} -> {new_status.value} (by {caller})"
         if note:
             entry += f" ({note})"
         task.history.append(entry)

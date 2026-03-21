@@ -13,15 +13,20 @@ from typing import Generator
 
 from .models import TeamState, Task, TaskStatus
 
+# Lock size large enough to cover any realistic lock file
+_LOCK_SIZE = 4096
+
 if sys.platform == "win32":
     import msvcrt
 
     def _lock(fd):
-        msvcrt.locking(fd.fileno(), msvcrt.LK_LOCK, 1)
+        fd.seek(0)
+        msvcrt.locking(fd.fileno(), msvcrt.LK_LOCK, _LOCK_SIZE)
 
     def _unlock(fd):
         try:
-            msvcrt.locking(fd.fileno(), msvcrt.LK_UNLCK, 1)
+            fd.seek(0)
+            msvcrt.locking(fd.fileno(), msvcrt.LK_UNLCK, _LOCK_SIZE)
         except OSError:
             pass
 else:
@@ -43,9 +48,11 @@ class StateManager:
     @contextmanager
     def lock(self) -> Generator[TeamState, None, None]:
         self._state_file.parent.mkdir(parents=True, exist_ok=True)
-        self._lock_file.touch(exist_ok=True)
+        # Ensure lock file has enough bytes for Windows locking
+        if not self._lock_file.exists() or self._lock_file.stat().st_size < _LOCK_SIZE:
+            self._lock_file.write_bytes(b"\0" * _LOCK_SIZE)
 
-        with open(self._lock_file, "r+", encoding="utf-8") as lock_fd:
+        with open(self._lock_file, "r+b") as lock_fd:
             _lock(lock_fd)
             try:
                 state = self._load()
@@ -58,6 +65,7 @@ class StateManager:
         return self._load()
 
     def archive_task(self, task: Task) -> str:
+        """Archive a completed task. MUST be called inside lock() context."""
         self._archive_dir.mkdir(parents=True, exist_ok=True)
 
         month = datetime.now().strftime("%Y-%m")
@@ -69,9 +77,22 @@ class StateManager:
             archive = {"tasks": []}
 
         archive["tasks"].append(task.model_dump())
-        archive_file.write_text(
-            json.dumps(archive, indent=2, ensure_ascii=False), encoding="utf-8"
+
+        # Atomic write to prevent corruption
+        fd, tmp_path = tempfile.mkstemp(
+            dir=self._archive_dir, prefix=".archive-", suffix=".tmp"
         )
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                json.dump(archive, f, indent=2, ensure_ascii=False)
+            os.replace(tmp_path, archive_file)
+        except Exception:
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
+            raise
+
         return str(archive_file)
 
     def read_archive(self, month: str | None = None) -> list[dict]:

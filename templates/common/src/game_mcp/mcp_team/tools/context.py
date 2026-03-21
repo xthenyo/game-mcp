@@ -4,9 +4,15 @@ from __future__ import annotations
 
 from typing import Optional
 
+import os
+import tempfile
+from datetime import datetime, timedelta
+
 from .._context import BIBLE_ROOT, DECISIONS_FILE, mcp
 from ..state.manager import now_str
 from ..state.models import VALID_ROLES
+
+STALE_THRESHOLD_HOURS = 4
 
 
 def _ensure_decisions_file() -> None:
@@ -28,7 +34,20 @@ def _trim_decisions(max_lines: int = 200) -> None:
         header = lines[:4]
         body = lines[4:]
         trimmed = body[-(max_lines - 4):]
-        DECISIONS_FILE.write_text("\n".join(header + trimmed) + "\n", encoding="utf-8")
+        content = "\n".join(header + trimmed) + "\n"
+        # Atomic write to prevent race condition during concurrent trims
+        fd, tmp_path = tempfile.mkstemp(
+            dir=str(DECISIONS_FILE.parent), prefix=".decisions-", suffix=".tmp"
+        )
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                f.write(content)
+            os.replace(tmp_path, DECISIONS_FILE)
+        except Exception:
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
 
 
 VALID_TAGS = frozenset({"ARCH", "ART", "PERF", "BUG", "API", "NAMING", "STYLE", "TOOL", "CONFIG"})
@@ -189,5 +208,30 @@ def get_context(role: str) -> dict:
                 }
         if bible_summary:
             result["bible_status"] = bible_summary
+
+        # Stale task detection — flag IN_PROGRESS tasks older than threshold
+        stale = []
+        now = datetime.now()
+        for t in all_tasks:
+            if t.status.value != "IN_PROGRESS":
+                continue
+            # Parse last history entry timestamp
+            if t.history:
+                last_entry = t.history[-1]
+                try:
+                    ts_str = last_entry.split("]")[0].lstrip("[").strip()
+                    last_ts = datetime.strptime(ts_str, "%Y-%m-%d %H:%M:%S")
+                    if now - last_ts > timedelta(hours=STALE_THRESHOLD_HOURS):
+                        stale.append({
+                            "task_id": t.id, "title": t.title, "role": t.role,
+                            "locked_by": t.locked_by,
+                            "stuck_hours": round((now - last_ts).total_seconds() / 3600, 1),
+                            "fix": f"update_task({t.id}, 'OPEN', caller_role='LEAD', note='reset stale task')",
+                        })
+                except (ValueError, IndexError):
+                    pass
+        if stale:
+            result["stale_tasks"] = stale
+            result["stale_warning"] = f"{len(stale)} task(s) stuck IN_PROGRESS for >{STALE_THRESHOLD_HOURS}h — consider resetting"
 
     return result
