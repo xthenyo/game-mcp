@@ -1,6 +1,6 @@
 {
   "name": "game-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Multi-agent game development framework for Claude Code — Web, Unity 2D, Unity 3D",
   "type": "module",
   "bin": {
